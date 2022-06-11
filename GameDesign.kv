@@ -1,0 +1,986 @@
+#:set temp ""
+#:set description_label_text "Hover on some of the text and here will be\n the description of it"
+
+ScreenManagement:
+    id: screen_manager
+    MenuScreen:
+        name: 'Menu'
+        manager: screen_manager
+    OptionsScreen:
+        name: 'Options'
+        manager: screen_manager
+    SavesScreen:
+        name: 'Saves'
+        manager: screen_manager
+    ContinueScreen:
+        name: 'Continue'
+        manager: screen_manager
+    CreateNewScreen:
+        name: "CreateNew"
+        manager: screen_manager
+    AdventureScreen:
+        name: "Adventure"
+        manager: screen_manager
+    InventoryScreen:
+        name: "Inventory"
+        manager: screen_manager
+    ShopScreen:
+        name: "Shop"
+        manager: screen_manager
+    SelectStoreScreen:
+        name: "SelectStore"
+        manager: screen_manager
+    PotionsScreen:
+        id: potionsScreen
+        name: "Potions"
+        manager: screen_manager
+
+
+
+<Background@Image>
+    source: 'images/background_with_title.png'
+    size: root.size
+    allow_stretch: True
+    keep_ratio: False
+
+<Heading1>
+    font_name: "Adventurer"
+    color: (44/255, 39/255, 26/255, 1)
+    font_size: 45
+
+<Heading2>
+    font_name: "Adventurer"
+    color: (99/255, 69/255, 45/255, 1)
+    font_size: 45
+
+<Heading3>
+    #foreground_color: (168/255, 118/255, 77/255, 1)
+    #background_color: (0,0,0,0)
+    font_name: "Adventurer"
+    color: (168/255, 118/255, 77/255, 1)
+    font_size: 30
+
+<MyRadioBox>
+    size_hint: .02,.034
+    background_radio_normal: "images/radiobox_off.png"
+    background_radio_down: "images/radiobox_on.png"
+
+<HoverButton>
+    size_hint: .3, .1
+    font_name:"Adventurer"
+    font_size:45
+    color: (242/255,223/255,151/255,1) if self.hovered else (1, 1, 1, 1)
+    background_normal:"images/hover.png" if self.hovered else "images/normal.png"
+    background_down: "images/pressed.png"
+    on_press:  root.btn_pressed()
+
+
+
+<MenuScreen>
+    FloatLayout:
+        Background
+
+        HoverButton:
+            text: 'Start Game'
+            pos_hint: {'x':.35, 'y':.507}
+            on_release: root.manager.current = 'Saves'
+        HoverButton:
+            text: 'Options'
+            pos_hint: {'x':.35, 'y':.397}
+            on_release: root.manager.current = 'Options'
+        HoverButton:
+            text: 'Quit Game'
+            pos_hint: {'x':.35, 'y':.287}
+            on_release: app.stop()
+
+<SavesScreen>
+    FloatLayout:
+        Background
+            source: "images/wall.png"
+        HoverButton:
+            text: 'Back'
+            size_hint: .15, .1
+            pos_hint: {'x':.045, 'y':.05}
+            on_release: root.manager.current = 'Menu'
+        HoverButton:
+            text: 'Continue'
+            size_hint: .2, .1
+            pos_hint: {'x':.3, 'y':.05}
+            on_release: root.manager.current = 'Continue'
+        HoverButton:
+            text: 'Delete'
+            size_hint: .15, .1
+            pos_hint: {'x':.55, 'y':.05}
+
+        HoverButton:
+            text: 'New Game'
+            size_hint: .2, .1
+            pos_hint: {'x':.75, 'y':.05}
+            on_release: root.manager.current = 'CreateNew'
+
+
+<ContinueScreen>
+
+    FloatLayout:
+        Background
+            source: "images/wall.png"
+        HoverButton:
+            text: 'Start Adventure'
+            pos_hint: {'x':.2, 'y':.7}
+            on_release: root.manager.current = 'Adventure'
+        HoverButton:
+            text: 'Inventory'
+            pos_hint: {'x':.2, 'y':.55}
+            on_release: root.manager.current = 'Inventory'
+        HoverButton:
+            text: 'Shop'
+            pos_hint: {'x':.2, 'y':.4}
+            on_release: root.manager.current = 'SelectStore'
+        HoverButton:
+            text: 'Back'
+            size_hint: .15, .1
+            pos_hint: {'x':.03, 'y':.05}
+            on_release: root.manager.current = 'Saves'
+
+<AdventureScreen>
+
+    FloatLayout:
+
+        Background
+            source: "images/dungeon_back2.png"
+
+        Heading3:
+            text: app.character.nick
+            color: 'white'
+            size_hint: .16, .04
+            pos_hint: {'x':.085, 'y':.57}
+
+        Heading3:
+            text: '100/' + str(app.character.health) #TODO: total_health
+            color: 'white'
+            size_hint: .16, .04
+            pos_hint: {'x':.085, 'y':.53}
+        Widget:
+            size_hint: .2175, .035
+            pos_hint: {'x':.057, 'y':.535}
+            canvas:
+                Color:
+                    rgba: (0, 1, 0, .5)
+                Rectangle:
+                    size: 330,25
+                    #TODO: size: (330 - ((330/100)*(total_health - current_health))), 25
+                    pos: 90,430
+            canvas.before:
+                Color:
+                    rgba: (1, 1, 1, .8)
+                Line:
+                    width: 1.1
+                    rectangle: self.x, self.y, self.width, self.height
+
+
+#        Widget:
+#            pos_hint: {'x':.8, 'y':.7}
+#            canvas.before:
+#                Color:
+#                    rgba: (1, 1, 1, .8)
+#                Line:
+#                    width: 1.1
+#                    rectangle: self.x, self.y, self.width, self.height
+#            Image:
+#                source: 'images/enemies/watcher.png'
+#                size: 600, 600
+#                pos: 1126,430
+
+
+
+        Heading3:
+            text: app.enemy.e_name
+            color: 'white'
+            size_hint: .16, .04
+            pos_hint: {'x':.7595, 'y':.57}
+
+        Heading3:
+            text: '50/' + str(app.enemy.e_health) #TODO: total_enemy_health
+            color: 'white'
+            size_hint: .16, .04
+            pos_hint: {'x':.7595, 'y':.53}
+
+        Widget:
+            size_hint: .2175, .035
+            pos_hint: {'x':.7315, 'y':.535}
+            canvas:
+                Color:
+                    rgba: (0, 1, 0, .5)
+                Rectangle:
+                    size: (330 - ((330/50)*(50 - app.enemy.e_health))), 25
+                    pos: 1126,430
+            canvas.before:
+                Color:
+                    rgba: (1, 1, 1, .8)
+                Line:
+                    width: 1.1
+                    rectangle: self.x, self.y, self.width, self.height
+
+
+        HoverButton:
+            #text: 'One-Handed'
+            size_hint: .08, .14
+            background_normal:"images/attacks/onehanded_attack_hover.png" if self.hovered else "images/attacks/onehanded_attack.png"
+            background_down: "images/attacks/onehanded_attack_off.png"
+            pos_hint: {'x':.03, 'y':.25}
+            on_press: app.character.onehanded_attack()
+
+        HoverButton:
+            #text: 'Two-Handed'
+            size_hint: .08, .14
+            background_normal:"images/attacks/twohanded_attack_hover.png" if self.hovered else "images/attacks/twohanded_attack.png"
+            background_down: "images/attacks/twohanded_attack_off.png"
+            pos_hint: {'x':.115, 'y':.25}
+            on_press: app.character.twohanded_attack()
+
+        HoverButton:
+            #text: 'Ranged'
+            size_hint: .08, .14
+            background_normal:"images/attacks/ranged_attack_hover.png" if self.hovered else "images/attacks/ranged_attack.png"
+            background_down: "images/attacks/ranged_attack_off.png"
+            pos_hint: {'x':.2, 'y':.25}
+            on_press: app.character.ranged_attack()
+
+        HoverButton:
+            #text: 'Magic'
+            size_hint: .08, .14
+            background_normal:"images/attacks/magic_attack_hover.png" if self.hovered else "images/attacks/magic_attack.png"
+            background_down: "images/attacks/magic_attack_off.png"
+            pos_hint: {'x':.285, 'y':.25}
+            on_press: app.character.magic_attack()
+
+        HoverButton:
+            #text: 'Potion1'
+            size_hint: .08, .14
+            background_normal:"images/attacks/potion_slot_hover.png" if self.hovered else "images/attacks/potion_slot.png"
+            background_down: "images/attacks/potion_slot_off.png"
+            pos_hint: {'x':.03, 'y':.1}
+        HoverButton:
+            #text: 'Potion2'
+            size_hint: .08, .14
+            background_normal:"images/attacks/potion_slot_hover.png" if self.hovered else "images/attacks/potion_slot.png"
+            background_down: "images/attacks/potion_slot_off.png"
+            pos_hint: {'x':.115, 'y':.1}
+        HoverButton:
+            #text: 'Potion3'
+            size_hint: .08, .14
+            background_normal:"images/attacks/potion_slot_hover.png" if self.hovered else "images/attacks/potion_slot.png"
+            background_down: "images/attacks/potion_slot_off.png"
+            pos_hint: {'x':.2, 'y':.1}
+        HoverButton:
+            #text: 'Potion4'
+            size_hint: .08, .14
+            background_normal:"images/attacks/potion_slot_hover.png" if self.hovered else "images/attacks/potion_slot.png"
+            background_down: "images/attacks/potion_slot_off.png"
+            pos_hint: {'x':.285, 'y':.1}
+
+        Heading3:
+            text: 'Stamina: ' + str(app.character.stamina) + '/' +  str(app.character.stamina)
+            size_hint: .12,.04
+            pos_hint: {'x':.43, 'y':.23}
+
+
+        Heading3:
+            text: 'Strength: ' + str(app.character.strength) + '/' +  str(app.character.strength)
+            size_hint: .12,.04
+            pos_hint: {'x':.43, 'y':.3}
+
+
+        Heading3:
+            text: 'Agility: ' + str(app.character.agility) + '/' +  str(app.character.agility)
+            size_hint: .12,.04
+            pos_hint: {'x':.6, 'y':.3}
+
+
+        Heading3:
+            text: 'Mana: ' + str(app.character.mana) + '/' +  str(app.character.mana)
+            size_hint: .12,.04
+            pos_hint: {'x':.6, 'y':.23}
+
+
+        HoverButton:
+            text: 'Escape'
+            size_hint: .15, .1
+            pos_hint: {'x':.82, 'y':.05}
+            on_release: root.manager.current = 'Continue'
+
+
+
+<CreateNewScreen>
+
+    check_male: check_male
+    check_female: check_female
+
+    check_human: check_human
+    check_elf: check_elf
+    check_beast: check_beast
+    check_demon: check_demon
+    check_dark_elf: check_dark_elf
+    check_orc: check_orc
+
+    check_warrior: check_warrior
+    check_archer: check_archer
+    check_mage: check_mage
+    check_rogue: check_rogue
+
+    health_stat: health_stat
+    agility_stat: agility_stat
+    strength_stat: strength_stat
+    stamina_stat: stamina_stat
+    mana_stat: mana_stat
+
+    primary: primary
+    offhand: offhand
+    both_hands: both_hands
+
+    FloatLayout:
+        Background
+            source: "images/back22.png"
+        Heading1:
+            size_hint: .3,.06
+            text: "Create your Character"
+            pos_hint: {'x':.035, 'y':.899}
+
+        HoverLabel:
+            id: description_label
+            size_hint: .53,.17
+            font_name: "Adventurer"
+            color: (168/255, 118/255, 77/255, 1)
+            font_size: 30
+            text: "Hover on some of the text and here will be\n the description of it"
+            pos_hint: {'x':.233, 'y':.04}
+
+
+        Heading2:
+            text: "Stats:"
+            size_hint: .073,.05
+            pos_hint: {'x':.735, 'y':.9}
+            on_enter: root.ids.description_label.text = "Your stats can be raised by leveling up or temporary\n by potions"
+            on_leave: root.ids.description_label.text = description_label_text
+        Heading3:
+            text: "Health: "
+            size_hint: .065,.04
+            pos_hint: {'x':.735, 'y':.845}
+            on_enter: root.ids.description_label.text = "..."
+            on_leave: root.ids.description_label.text = description_label_text
+        Heading3:
+            id: health_stat
+            size_hint: .04,.04
+            text: str(root.character.health)
+            color: (99/255, 69/255, 45/255, 1)
+            pos_hint: {'x':.85, 'y':.845}
+
+        Heading3:
+            text: "Strength: "
+            size_hint: .083,.04
+            pos_hint: {'x':.735, 'y':.79}
+            on_enter: root.ids.description_label.text = "..."
+            on_leave: root.ids.description_label.text = description_label_text
+        Heading3:
+            id: strength_stat
+            size_hint: .04,.04
+            text: str(root.character.strength)
+            color: (99/255, 69/255, 45/255, 1)
+            pos_hint: {'x':.85, 'y':.79}
+
+        Heading3:
+            text: "Agility: "
+            size_hint: .063,.04
+            pos_hint: {'x':.735, 'y':.735}
+            on_enter: root.ids.description_label.text = "..."
+            on_leave: root.ids.description_label.text = description_label_text
+        Heading3:
+            id: agility_stat
+            size_hint: .04,.04
+            text: str(root.character.agility)
+            color: (99/255, 69/255, 45/255, 1)
+            pos_hint: {'x':.85, 'y':.735}
+
+        Heading3:
+            text: "Stamina: "
+            size_hint: .082,.04
+            pos_hint: {'x':.735, 'y':.68}
+            on_enter: root.ids.description_label.text = "..."
+            on_leave: root.ids.description_label.text = description_label_text
+        Heading3:
+            id: stamina_stat
+            size_hint: .04,.04
+            text: str(root.character.stamina)
+            color: (99/255, 69/255, 45/255, 1)
+            pos_hint: {'x':.85, 'y':.68}
+
+        Heading3:
+            text: "Mana: "
+            size_hint: .055,.04
+            pos_hint: {'x':.735, 'y':.625}
+            on_enter: root.ids.description_label.text = "..."
+            on_leave: root.ids.description_label.text = description_label_text
+        Heading3:
+            id: mana_stat
+            size_hint: .04,.04
+            text: str(root.character.mana)
+            color: (99/255, 69/255, 45/255, 1)
+            pos_hint: {'x':.85, 'y':.625}
+
+
+        Heading2:
+            text: "Weapons:"
+            size_hint: .12,.05
+            pos_hint: {'x':.735, 'y':.55}
+            on_enter: root.ids.description_label.text = "Weapons can be changed in inventory and you don't have to\n have weapons only from the same class"
+            on_leave: root.ids.description_label.text = description_label_text
+        Heading3:
+            size_hint: .236,.04
+            text: "One handed weapons equip"
+            pos_hint: {'x':.729, 'y':.495}
+            on_enter: root.ids.description_label.text = "One handed equip is better for short timed attacks but\n deal less damage"
+            on_leave: root.ids.description_label.text = description_label_text
+        Heading3:
+            size_hint: .08,.04
+            text: "Primary: "
+            pos_hint: {'x':.735, 'y':.44}
+        Heading3:
+            id: primary
+            size_hint: .06,.04
+            text: "-"
+            color: (99/255, 69/255, 45/255, 1)
+            pos_hint: {'x':.85, 'y':.44}
+
+        Heading3:
+            size_hint: .08,.04
+            text: "Offhand: "
+            pos_hint: {'x':.735, 'y':.385}
+        Heading3:
+            id: offhand
+            size_hint: .06,.04
+            text: "-"
+            color: (99/255, 69/255, 45/255, 1)
+            pos_hint: {'x':.85, 'y':.385}
+
+        Heading3:
+            size_hint: .23,.04
+            text: "Two handed weapon equip"
+            pos_hint: {'x':.732, 'y':.33}
+            on_enter: root.ids.description_label.text = "Two handed equip is better for more damage but attacks\n are a lot slower"
+            on_leave: root.ids.description_label.text = description_label_text
+        Heading3:
+            id: both_hands
+            size_hint: .13,.04
+            text: "-"
+            color: (99/255, 69/255, 45/255, 1)
+            pos_hint: {'x':.786, 'y':.275}
+
+        Heading2:
+            text: "Name:"
+            size_hint: .08,.04
+            pos_hint: {'x':.04, 'y':.81}
+            on_enter: root.ids.description_label.text = "Your name can have maximum of 15 characters"
+            on_leave: root.ids.description_label.text = description_label_text
+        TextInput:
+            id: name_input
+            text: ""
+            cursor_color: (168/255, 118/255, 77/255, 1)
+            on_text:
+                if len(self.text) > 14: \
+                self.text = temp
+                else: temp = self.text
+
+            multiline: False
+            write_tab: False
+            size_hint_max: 315, 50
+            font_size: 40
+            foreground_color: (168/255, 118/255, 77/255, 1)
+            background_color: (0,0,0,0)
+            font_name: "Adventurer"
+            pos_hint: {'x':.15, 'y':.8}
+
+        HoverButton:
+            text: 'Back'
+            size_hint: .15, .1
+            pos_hint: {'x':.03, 'y':.05}
+            on_release: root.manager.current = 'Saves'
+            on_press: root.clear_info()
+        HoverButton:
+            text: 'Submit'
+            size_hint: .15, .1
+            pos_hint: {'x':.819, 'y':.05}
+            on_press:
+                root.get_info()
+
+        Heading2:
+            text: "Gender:"
+            size_hint: .105,.04
+            pos_hint: {'x':.04, 'y':.705}
+
+        Heading3:
+            text: "Male"
+            size_hint: .045,.04
+            pos_hint: {'x':.1705, 'y':.705}
+            on_enter: root.ids.description_label.text = "Males are stronger and have a more stamina"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_male
+            group: "gender"
+            pos_hint: {'x':.25, 'y':.708}
+            on_active: root.checkbox_stats(self, "male") if self.active else root.checkbox_stats2(self, "male")
+            on_enter: root.ids.description_label.text = "Males are stronger and have a more stamina"
+            on_leave: root.ids.description_label.text = description_label_text
+
+
+
+        Heading3:
+            text: "Female"
+            size_hint: .062,.04
+            pos_hint: {'x':.33, 'y':.705}
+            on_enter: root.ids.description_label.text = "Females have a greater talent for magic and are more agile"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        MyRadioBox:
+            id: check_female
+            group: "gender"
+            pos_hint: {'x':.42, 'y':.708}
+            on_active: root.checkbox_stats(self, "female") if self.active else root.checkbox_stats2(self, "female")
+            on_enter: root.ids.description_label.text = "Females have a greater talent for magic and are more agile"
+            on_leave: root.ids.description_label.text = description_label_text
+
+
+
+        Heading2:
+            text: "Race:"
+            size_hint: .08,.04
+            pos_hint: {'x':.04, 'y':.605}
+            on_enter: root.ids.description_label.text = "Some races are more talented on some classes than the\n others but that doesn't prevent them from being some\n they aren't good at"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        Heading3:
+            text: "Human"
+            size_hint: .06,.036
+            pos_hint: {'x':.1705, 'y':.605}
+            on_enter: root.ids.description_label.text = "Humans are the basis of all races, because of that\n they have no pros and cons"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_human
+            group: "race"
+            pos_hint: {'x':.25, 'y':.605}
+            on_enter: root.ids.description_label.text = "Humans are the basis of all races, because of that\n they have no pros and cons"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        Heading3:
+            text: "Elf"
+            size_hint: .028,.036
+            pos_hint: {'x':.33, 'y':.605}
+            on_enter: root.ids.description_label.text = "Elves are agile and prefer to be archers, they can be better\n than regular archer because of their many talents\n for that class"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_elf
+            group: "race"
+            pos_hint: {'x':.42, 'y':.605}
+            on_active: root.checkbox_stats(self, "elf") if self.active else root.checkbox_stats2(self, "elf")
+            on_enter: root.ids.description_label.text = "Elves are agile and prefer to be archers, they can be better\n than regular archer because of their many talents\n for that class"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        Heading3:
+            text: "Beast"
+            size_hint: .05,.036
+            pos_hint: {'x':.5, 'y':.605}
+            on_enter: root.ids.description_label.text = "Beasts are of all kinds, but one thing is for sure, they can be\n anything they want without any problems"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_beast
+            group: "race"
+            pos_hint: {'x':.57, 'y':.605}
+            on_active: root.checkbox_stats(self, "beast") if self.active else root.checkbox_stats2(self, "beast")
+            on_enter: root.ids.description_label.text = "Beasts are of all kinds, but one thing is for sure, they can be\n anything they want without any problems"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        Heading3:
+            text: "Demon"
+            size_hint: .056,.036
+            pos_hint: {'x':.1705, 'y':.515}
+            on_enter: root.ids.description_label.text = "Demons are strong, tough and talented mages,\n especially with dark and fire magic"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_demon
+            group: "race"
+            pos_hint: {'x':.25, 'y':.515}
+            on_active: root.checkbox_stats(self, "demon") if self.active else root.checkbox_stats2(self, "demon")
+            on_enter: root.ids.description_label.text = "Demons are strong, tough and talented mages,\n especially with dark and fire magic"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        Heading3:
+            text: "Dark Elf"
+            size_hint: .076,.036
+            pos_hint: {'x':.33, 'y':.515}
+            on_enter: root.ids.description_label.text = "Dark Elves are famous for their skills as rogue or mage,\n because they are closer to the darkness and therefore\n are better hunters"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_dark_elf
+            group: "race"
+            pos_hint: {'x':.42, 'y':.515}
+            on_active: root.checkbox_stats(self, "dark elf") if self.active else root.checkbox_stats2(self, "dark elf")
+            on_enter: root.ids.description_label.text = "Dark Elves are famous for their skills as rogue or mage,\n because they are closer to the darkness and therefore\n are better hunters"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        Heading3:
+            text: "Orc"
+            size_hint: .035,.036
+            pos_hint: {'x':.50, 'y':.515}
+            on_enter: root.ids.description_label.text = "Orcs are very strong, they are hard to kill and prefer to be\n warriors because of their lack of mana"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_orc
+            group: "race"
+            pos_hint: {'x':.57, 'y':.515}
+            on_active: root.checkbox_stats(self, "orc") if self.active else root.checkbox_stats2(self, "orc")
+            on_enter: root.ids.description_label.text = "Orcs are very strong, they are hard to kill and prefer to be\n warriors because of their lack of mana"
+            on_leave: root.ids.description_label.text = description_label_text
+
+
+
+
+        Heading2:
+            text: "Class:"
+            size_hint: .08,.04
+            pos_hint: {'x':.04, 'y':.41}
+            on_enter: root.ids.description_label.text = "When you choose class, the states will increase according to\n what you need"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        Heading3:
+            text: "Warrior"
+            size_hint: .073,.04
+            pos_hint: {'x':.1705, 'y':.41}
+            on_enter: root.ids.description_label.text = "Warriors tend to have sword and shield with them but there\n were experts who used only one sword and magic with it"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_warrior
+            group: "class"
+            pos_hint: {'x':.25, 'y':.41}
+            on_active: root.checkbox_stats(self, "warrior") if self.active else root.checkbox_stats2(self, "warrior")
+            on_enter: root.ids.description_label.text = "Warriors tend to have sword and shield with them but there\n were experts who used only one sword and magic with it"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        Heading3:
+            text: "Archer"
+            size_hint: .06,.04
+            pos_hint: {'x':.33, 'y':.41}
+            on_enter: root.ids.description_label.text = "Archers have bows that's for sure, but they have sword in\n reserve and some have magical arrows too"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_archer
+            group: "class"
+            pos_hint: {'x':.42, 'y':.41}
+            on_active: root.checkbox_stats(self, "archer") if self.active else root.checkbox_stats2(self, "archer")
+            on_enter: root.ids.description_label.text = "Archers have bows that's for sure, but they have sword in\n reserve and some have magical arrows too"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        Heading3:
+            text: "Mage"
+            size_hint: .045,.04
+            pos_hint: {'x':.50, 'y':.41}
+            on_enter: root.ids.description_label.text = "Mages use magic and for that they need magic stones and\n some books, some also need help by a wooden stick"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_mage
+            group: "class"
+            pos_hint: {'x':.57, 'y':.41}
+            on_active: root.checkbox_stats(self, "mage") if self.active else root.checkbox_stats2(self, "mage")
+            on_enter: root.ids.description_label.text = "Mages use magic and for that they need magic stones and\n some books, some also need help by a wooden stick"
+            on_leave: root.ids.description_label.text = description_label_text
+
+        Heading3:
+            text: "Rogue"
+            size_hint: .055,.04
+            pos_hint: {'x':.1705, 'y':.31}
+            on_enter: root.ids.description_label.text = "Rogues are peculiar case of class, they can be also good\n mages and archers but prefer to be with two short swords\n or daggers, they also have longer sword in asset"
+            on_leave: root.ids.description_label.text = description_label_text
+        MyRadioBox:
+            id: check_rogue
+            group: "class"
+            pos_hint: {'x':.25, 'y':.31}
+            on_active: root.checkbox_stats(self, "rogue") if self.active else root.checkbox_stats2(self, "rogue")
+            on_enter: root.ids.description_label.text = "Rogues are peculiar case of class, they can be also good\n mages and archers but prefer to be with two short swords\n or daggers, they also have longer sword in asset"
+            on_leave: root.ids.description_label.text = description_label_text
+
+
+<OptionsScreen>
+    FloatLayout:
+        Background
+            source: "images/wall.png"
+        HoverButton:
+            text: 'Back'
+            size_hint: .15, .1
+            pos_hint: {'x':.03, 'y':.05}
+            on_release: root.manager.current = 'Menu'
+
+<SelectStoreScreen>
+    armour_btn: armour_btn
+    FloatLayout:
+        Background
+            id: store_background
+            source: "images/shops_back.png"
+
+        HoverButton:
+            id: armour_btn
+            text: 'Armour'
+            pos_hint: {'x':.1, 'y':.75}
+            on_enter: root.ids.store_background.source = "images/blacksmiths house.png"
+            on_leave: root.ids.store_background.source = "images/shops_back.png"
+
+        HoverButton:
+            text: 'Weapons'
+            pos_hint: {'x':.1, 'y':.6}
+            on_enter: root.ids.store_background.source = "images/blacksmiths house.png"
+            on_leave: root.ids.store_background.source = "images/shops_back.png"
+
+        HoverButton:
+            text: 'Potions'
+            pos_hint: {'x':.1, 'y':.45}
+            on_release: root.manager.current = 'Potions'
+            on_enter: root.ids.store_background.source = "images/magic house.png"
+            on_leave: root.ids.store_background.source = "images/shops_back.png"
+
+        HoverButton:
+            text: 'Accessories'
+            pos_hint: {'x':.1, 'y':.3}
+            on_enter: root.ids.store_background.source = "images/magic house.png"
+            on_leave: root.ids.store_background.source = "images/shops_back.png"
+        HoverButton:
+            text: 'Back'
+            size_hint: .15, .1
+            pos_hint: {'x':.03, 'y':.05}
+            on_release: root.manager.current = 'Continue'
+
+<PotionsScreen>
+    potions: potions
+    FloatLayout:
+        Background
+            source: "images/back222.png"
+
+        Heading3:
+            id: txt_coins
+            text: "Coins: " + str(app.character.coins)
+            size_hint: .09,.04
+            pos_hint: {'x':.04, 'y':.9}
+            color: (99/255, 69/255, 45/255, 1)
+
+        Heading3:
+            text: "Inventory"
+            size_hint: .08,.04
+            pos_hint: {'x':.04, 'y':.75}
+            color: (99/255, 69/255, 45/255, 1)
+
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            size_hint: .448,.57
+            pos_hint: {'x':.293, 'y':.385}
+            GridLayout:
+                size: (root.width, root.height)
+                size_hint_y: None
+                size_hint_x: None
+                padding: 10,10
+                rows: 16
+                height: self.minimum_height
+
+                Heading3:
+                    text: 'Health Potions'
+                    size_hint_max_y: 100
+                    size_hint_max_x: 400
+                RecycleView:
+                    viewclass: 'MyToggleButton'
+                    do_scroll_x: False
+                    do_scroll_y: False
+                    size_hint_y: None
+                    data: [{'source': img, 'group': 'potions'} for img in [app.potions['potions']['health'][i]['off'] for i in app.potions['potions']['health']]]
+                    RecycleBoxLayout:
+                        default_size: None, dp(67)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'horizontal'
+
+                Heading3:
+                    text: 'Mana Potions'
+                    size_hint_max_y: 100
+                    size_hint_max_x: 400
+                RecycleView:
+                    viewclass: 'MyToggleButton'
+                    do_scroll_x: False
+                    do_scroll_y: False
+                    size_hint_y: None
+                    data: [{'source': img, 'group': 'potions'} for img in [app.potions['potions']['mana'][i]['off'] for i in app.potions['potions']['mana']]]
+                    RecycleBoxLayout:
+                        default_size: None, dp(67)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'horizontal'
+
+                Heading3:
+                    text: 'Strength Potions'
+                    size_hint_max_y: 100
+                    size_hint_max_x: 400
+                RecycleView:
+                    id: potions
+                    viewclass: 'MyToggleButton'
+                    do_scroll_x: False
+                    do_scroll_y: False
+                    size_hint_y: None
+                    data: [{'source': img, 'group': 'potions'} for img in [app.potions['potions']['strength'][i]['off'] for i in app.potions['potions']['strength']]]
+                    RecycleBoxLayout:
+                        default_size: None, dp(67)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'horizontal'
+
+                Heading3:
+                    text: 'Stamina Potions'
+                    size_hint_max_y: 100
+                    size_hint_max_x: 400
+                RecycleView:
+                    viewclass: 'MyToggleButton'
+                    do_scroll_x: False
+                    do_scroll_y: False
+                    size_hint_y: None
+                    data: [{'source': img, 'group': 'potions'} for img in [app.potions['potions']['stamina'][i]['off'] for i in app.potions['potions']['stamina']]]
+                    RecycleBoxLayout:
+                        default_size: None, dp(67)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'horizontal'
+
+                Heading3:
+                    text: 'Agility Potions'
+                    size_hint_max_y: 100
+                    size_hint_max_x: 400
+                RecycleView:
+                    viewclass: 'MyToggleButton'
+                    do_scroll_x: False
+                    do_scroll_y: False
+                    size_hint_y: None
+                    data: [{'source': img, 'group': 'potions'} for img in [app.potions['potions']['agility'][i]['off'] for i in app.potions['potions']['agility']]]
+                    RecycleBoxLayout:
+                        default_size: None, dp(67)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'horizontal'
+
+
+
+        HoverButton:
+            size_hint: .04, .07
+            pos_hint: {'x':.77, 'y':.87}
+            background_normal:"images/plus_hover.png" if self.hovered else "images/plus_normal.png"
+            background_down: "images/plus_pressed.png"
+#            on_press: app.character.coins + 1
+#            on_release: print(app.character.coins + 1)
+        HoverButton:
+            size_hint: .04, .07
+            pos_hint: {'x':.937, 'y':.87}
+            background_normal:"images/minus_hover.png" if self.hovered else "images/minus_normal.png"
+            background_down: "images/minus_pressed.png"
+
+        TextInput:
+            id: num_input
+            text: ""
+            halign: 'right'
+            text_input: 'number'
+            input_filter: 'float'
+            cursor_color: (168/255, 118/255, 77/255, 1)
+            on_text:
+                if len(self.text) > 6: \
+                self.text = temp
+                else: temp = self.text
+                if '.' in self.text: \
+                self.text = temp.replace(".", "")
+                else: temp = self.text
+                if '-' in self.text: \
+                self.text = temp.replace("-", "")
+                else: temp = self.text
+
+            multiline: False
+            write_tab: False
+            size_hint_max: 180, 50
+            font_size: 40
+            foreground_color: (168/255, 118/255, 77/255, 1)
+            background_color: (0,0,0,0)
+            font_name: "Adventurer"
+            pos_hint: {'x':.815, 'y':.87}
+            canvas.before:
+                Color:
+                    rgba: (99/255, 69/255, 45/255, 1)
+                Line:
+                    width: 1.9
+                    rectangle: self.x, self.y, self.width, self.height
+        Heading3:
+            text: 'Maximum Quantity'
+            size_hint: .16,.05
+            pos_hint: {'x':.81, 'y':.8}
+        CheckBox:
+            size_hint: .03, .05
+            pos_hint: {'x':.78, 'y':.8}
+            background_checkbox_down: 'images/checkbox_on.png'
+            background_checkbox_normal: 'images/checkbox_off.png'
+            on_active: root.maximum_quantity
+
+#        Heading3:
+#            text: 'Buy'
+#            size_hint: .06,.034
+#            pos_hint: {'x':.81, 'y':.72}
+#        MyRadioBox:
+#            pos_hint: {'x':.79, 'y':.72}
+#            group: 'method'
+#        Heading3:
+#            text: 'Sell'
+#            size_hint: .06,.034
+#            pos_hint: {'x':.9, 'y':.72}
+#        MyRadioBox:
+#            pos_hint: {'x':.88, 'y':.72}
+#            group: 'method'
+
+        Heading3:
+            text: "Price:"
+            size_hint: .17,.06
+            pos_hint: {'x':.79, 'y':.7}
+        Label:
+            text: ''
+            size_hint: .16,.07
+            pos_hint: {'x':.795, 'y':.65}
+#            canvas.before:
+#                Color:
+#                    rgba: (99/255, 69/255, 45/255, 1)
+#                Line:
+#                    width: 1.9
+#                    rectangle: self.x, self.y, self.width, self.height
+
+        HoverButton:
+            text: 'Submit'
+            size_hint: .17, .08
+            pos_hint: {'x':.79, 'y':.4}
+
+        HoverButton:
+            text: 'Back'
+            size_hint: .15, .1
+            pos_hint: {'x':.03, 'y':.05}
+            on_release: root.manager.current = 'SelectStore'
+
+<InventoryScreen>
+
+    FloatLayout:
+        Background
+            source: "images/inventory_back.png"
+
+        HoverButton:
+            text: 'Back'
+            size_hint: .15, .1
+            pos_hint: {'x':.03, 'y':.05}
+            on_release: root.manager.current = 'Continue'

@@ -1,0 +1,53 @@
+{
+  "potions": {
+    "health": {
+      "small": {"name": "Small Health Potion","points": 20, "price": 250, "on": "images/potions/health_small_on.png", "off": "images/potions/health_small_off.png"},
+      "medium": {"name": "Medium Health Potion","points": 50, "price": 550, "on": "images/potions/health_medium_on.png", "off": "images/potions/health_medium_off.png"},
+      "large": {"name": "Large Health Potion","points": 150, "price": 1100, "on": "images/potions/health_large_on.png", "off": "images/potions/health_large_off.png"},
+      "extra large": {"name": "Extra Large Health Potion","points": 300, "price": 3050, "on": "images/potions/health_extra_on.png", "off": "images/potions/health_extra_off.png"}
+    },
+    "mana": {
+      "small": {"name": "Small Mana Potion","points": 20, "price": 250, "on": "images/potions/mana_small_on.png", "off": "images/potions/mana_small_off.png"},
+      "medium": {"name": "Medium Mana Potion","points": 50, "price": 550, "on": "images/potions/mana_medium_on.png", "off": "images/potions/mana_medium_off.png"},
+      "large": {"name": "Large Mana Potion","points": 150, "price": 1100, "on": "images/potions/mana_large_on.png", "off": "images/potions/mana_large_off.png"},
+      "extra large": {"name": "Extra Large Mana Potion","points": 300, "price": 3050, "on": "images/potions/mana_extra_on.png", "off": "images/potions/mana_extra_off.png"}
+    },
+    "luck": {
+      "liquor of four-leaf clover": {"percentage": 5, "price": 1000, "on": "images/potions/mana_medium_on.png"},
+      "tears of beginners": {"percentage": 10, "price": 1500, "on": "images/potions/mana_medium_on.png"},
+      "rusty horseshoe beer ": {"percentage": 20, "price": 2500, "on": "images/potions/mana_medium_on.png"},
+      "tea from seven-point ladybugs": {"percentage": 40, "price": 4500, "on": "images/potions/mana_medium_on.png"}
+    },
+    "strength": {
+      "small": {"name": "Small Strength Potion","points": 20, "price": 250, "effect time": 120, "on": "images/potions/strength_small_on.png", "off": "images/potions/strength_small_off.png"},
+      "medium": {"name": "Medium Strength Potion","points": 50, "price": 550, "effect time": 120, "on": "images/potions/strength_medium_on.png", "off": "images/potions/strength_medium_off.png"},
+      "large": {"name": "Large Strength Potion","points": 150, "price": 1100, "effect time": 120, "on": "images/potions/strength_large_on.png", "off": "images/potions/strength_large_off.png"},
+      "extra large": {"name": "Extra Large Strength Potion","points": 300, "price": 3050, "effect time": 120, "on": "images/potions/strength_extra_on.png", "off": "images/potions/strength_extra_off.png"}
+    },
+    "stamina": {
+      "small": {"name": "Small Stamina Potion","points": 20, "price": 250, "effect time": 120, "on": "images/potions/stamina_small_on.png", "off": "images/potions/stamina_small_off.png"},
+      "medium": {"name": "Medium Stamina Potion","points": 50, "price": 550, "effect time": 120, "on": "images/potions/stamina_medium_on.png", "off": "images/potions/stamina_medium_off.png"},
+      "large": {"name": "Large Stamina Potion","points": 150, "price": 1100, "effect time": 120, "on": "images/potions/stamina_large_on.png", "off": "images/potions/stamina_large_off.png"},
+      "extra large": {"name": "Extra Large Stamina Potion","points": 300, "price": 3050, "effect time": 120, "on": "images/potions/stamina_extra_on.png", "off": "images/potions/stamina_extra_off.png"}
+    },
+    "agility": {
+      "small": {"name": "Small Agility Potion","points": 20, "price": 250, "effect time": 120, "on": "images/potions/agility_small_on.png", "off": "images/potions/agility_small_off.png"},
+      "medium": {"name": "Medium Agility Potion","points": 50, "price": 550, "effect time": 120, "on": "images/potions/agility_medium_on.png", "off": "images/potions/agility_medium_off.png"},
+      "large": {"name": "Large Agility Potion","points": 150, "price": 1100, "effect time": 120, "on": "images/potions/agility_large_on.png", "off": "images/potions/agility_large_off.png"},
+      "extra large": {"name": "Extra Large Agility Potion","points": 300, "price": 3050, "effect time": 120, "on": "images/potions/agility_extra_on.png", "off": "images/potions/agility_extra_off.png"}
+    },
+
+    "antidotes": {
+      "broth form spider eyes": {"effect time": 60, "price": 240, "on": "images/potions/mana_potion_medium_on.png"},
+      "wine from pufferfish": {"effect time": 120, "price": 480, "on": "images/potions/mana_potion_medium_on.png"}
+    },
+    "elements": {
+      "fire": {"effect time": 60, "price": 240, "on": "images/potions/mana_potion_medium_on.png"},
+      "water": {"effect time": 60, "price": 240, "on": "images/potions/mana_potion_medium_on.png"},
+      "earth": {"effect time": 60, "price": 240, "on": "images/potions/mana_potion_medium_on.png"},
+      "air": {"effect time": 60, "price": 240, "on": "images/potions/mana_potion_medium_on.png"},
+      "darkness": {"effect time": 60, "price": 240, "on": "images/potions/mana_potion_medium_on.png"},
+      "light": {"effect time": 60, "price": 240, "on": "images/potions/mana_potion_medium_on.png"}
+    }
+    }
+  }
